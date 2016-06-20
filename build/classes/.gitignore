@@ -1,0 +1,9 @@
+/application-action.xml
+/application-dao.xml
+/application-service.xml
+/applicationContext.xml
+/com
+/db.properties
+/db.sql
+/mybatis-config.xml
+/struts.xml

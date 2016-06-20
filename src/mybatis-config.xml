@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.qdu.model.userInfo" alias="userInfo" />
+		<typeAlias type="com.qdu.model.Page" alias="Page" />
+		<typeAlias type="com.qdu.model.Zhigong" alias="Zhigong" />
+		<typeAlias type="com.qdu.model.Gongyingshang" alias="Gongyingshang" />
+		<typeAlias type="com.qdu.model.Jinhuo" alias="Jinhuo" />
+		<typeAlias type="com.qdu.model.Xiaoshou" alias="Xiaoshou" />
+		<typeAlias type="com.qdu.model.Yaopinchuli" alias="Yaopinchuli" />
+		<typeAlias type="com.qdu.model.Yaopininfo" alias="Yaopininfo" />
+		<typeAlias type="com.qdu.model.Yaopinkucun" alias="Yaopinkucun" />
+		<typeAlias type="com.qdu.model.Juese" alias="Juese" />
+		<typeAlias type="com.qdu.model.Caidan" alias="Caidan" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="com/qdu/mapper/userMapper.xml" />
+		<mapper resource="com/qdu/mapper/zhigongMapper.xml" />
+		<mapper resource="com/qdu/mapper/gongyingshangMapper.xml" />
+		<mapper resource="com/qdu/mapper/yaopinMapper.xml" />
+	</mappers>
+</configuration>

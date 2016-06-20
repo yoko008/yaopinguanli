@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qdu.dao.gongyingshangDao">
+    <select id="listnum" parameterType="Page" resultType="int">
+	    select count(id) from gongyingshang where 1=1
+	    <if test="keyword != null and keyword != ''">
+	       and name like CONCAT('%',#{keyword},'%') 
+	    </if>
+	     and status=0
+	</select>
+	<select id="gongyingshangList"  parameterType="Page" resultMap="resultGYS">
+	    select * from gongyingshang where 1=1
+	    <if test="keyword != null and keyword != ''">
+	        and name like CONCAT('%',#{keyword},'%') 
+	    </if>
+	    and status=0 order by id desc limit #{startnum},#{pagelistnum}
+	</select>
+	<insert id="addGYS" parameterType="Gongyingshang">
+	    insert into gongyingshang values(default,#{name},#{phone},#{fuzeren},#{dizhi},0)
+	</insert>
+	<update id="delGYS" parameterType="Gongyingshang">
+	    update gongyingshang set status=1 where id=#{id}
+	</update>
+	<update id="updateGYS" parameterType="Gongyingshang">
+	    update gongyingshang set 
+	    <if test="name!=null">
+	       name=#{name} 
+	    </if>
+	    <if test="phone!=null">
+	       phone=#{phone} 
+	    </if>
+	    <if test="fuzeren!=null">
+	       fuzeren=#{fuzeren} 
+	    </if>
+	    <if test="dizhi!=null">
+	       dizhi=#{dizhi} 
+	    </if>
+	     where id=#{id}
+	</update>
+	<resultMap type="Gongyingshang" id="resultGYS">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="fuzeren" column="fuzeren" />
+		<result property="phone" column="phone" />
+		<result property="dizhi" column="dizhi" />
+		<result property="status" column="status" />
+	</resultMap>
+</mapper>

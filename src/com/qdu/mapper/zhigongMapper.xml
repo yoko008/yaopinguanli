@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qdu.dao.zhigongDao">
+	<select id="listnum" parameterType="Page" resultType="int">
+	    select count(id) from zhigong 
+	    <if test="keyword != null and keyword != ''">
+	       where name = #{keyword}
+	    </if>
+	</select>
+	<select id="zhigongList"  parameterType="Page" resultMap="resultZhigong">
+	    select * from zhigong 
+	    <if test="keyword != null and keyword != ''">
+	        where name like CONCAT('%',#{keyword},'%') 
+	    </if>
+	     order by id desc limit #{startnum},#{pagelistnum}
+	</select>
+	<update id="lizhi" parameterType="Zhigong">
+	    update zhigong set status=1,lizhidate=#{lizhidate} where id=#{id}
+	</update>
+	<insert id="addzhigong" parameterType="Zhigong">
+	    insert into zhigong values(default,#{gonghao},#{name},#{bumen},#{zhiwu},#{birthday},#{sex},#{ruzhidate},null,0)
+	</insert>
+<update id="xiugai" parameterType="Zhigong">
+	    update zhigong set 
+	    <if test="gonghao!=null">
+	       gonghao=#{gonghao} 
+	    </if>
+	    <if test="name!=null">
+	       name=#{name} 
+	    </if>
+	    <if test="bumen!=null">
+	       bumen=#{bumen} 
+	    </if>
+	    <if test="zhiwu!=null">
+	       zhiwu=#{zhiwu} 
+	    </if>
+	    <if test="sex!=null">
+	       sex=#{sex} 
+	    </if>
+	    <if test="birthday!=null">
+	       birthday=#{birthday} 
+	    </if>
+	    <if test="ruzhidate!=null">
+	       ruzhidate=#{ruzhidate} 
+	    </if>
+	     where id=#{id}
+</update>
+	 <resultMap type="Zhigong" id="resultZhigong">
+		<id property="id" column="id" />
+		<result property="birthday" column="birthday" />
+		<result property="bumen" column="bumen" />
+		<result property="gonghao" column="gonghao" />
+		<result property="lizhidate" column="lizhidate" />
+		<result property="name" column="name" />
+		<result property="ruzhidate" column="ruzhidate" />
+		<result property="sex" column="sex" />
+		<result property="status" column="status" />
+		<result property="zhiwu" column="zhiwu" />
+	</resultMap>
+</mapper>

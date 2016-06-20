@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qdu.dao.userDao">
+  <!-- 用户登录 -->
+	<select id="login" parameterType="userInfo" resultType="userInfo">
+		SELECT * FROM userinfo WHERE username=#{username} AND
+		password=#{password} and status=0
+	</select>
+	<select id="listnum" parameterType="Page" resultType="int">
+	    select count(id) from userinfo 
+	    <if test="keyword != null and keyword != ''">
+	       where username = #{keyword}
+	    </if>
+	</select>
+	<select id="userList"  parameterType="Page" resultMap="resultUser">
+	    select * from userinfo 
+	    <if test="keyword != null and keyword != ''">
+	        where username like CONCAT('%',#{keyword},'%') 
+	    </if>
+	     order by id desc limit #{startnum},#{pagelistnum}
+	</select>
+	<update id="delyonghujuese" parameterType="Juese">
+	    update userinfo set type='普通用户'  where type=#{juese}
+	</update>
+	<insert id="addjuese" parameterType="Caidan">
+	    insert into juese values(default,#{juese})
+	</insert>
+	<delete id="deljuese" parameterType="Juese">
+	    delete from juese where id=#{id}
+	</delete>
+	<update id="resetPass" parameterType="userInfo">
+        update userinfo set 
+        <if test="realname!='admin'">
+         password='password' 
+        </if>
+        <if test="realname=='admin'">
+         type=1  
+        </if>
+         where id=#{id}
+    </update>
+    <update id="caozuo" parameterType="userInfo">
+        update userinfo set 
+        <if test="status==0">
+         status=1 
+        </if>
+        <if test="status==1">
+         status=0  
+        </if>
+        where id=#{id}
+    </update>
+    <select id="jueseList" resultMap="resultJuese">
+        select * from juese
+    </select>
+    <update id="editjuese" parameterType="userInfo">
+        update userinfo set type=#{type} where id=#{id}
+    </update>
+    <select id="searchJuese" resultMap="resultJuese">
+        select * from juese
+    </select>
+    <insert id="editcaidan" parameterType="Caidan">
+        insert into caidan values(default,#{juese},#{caidan})
+    </insert>
+    <delete id="delcaidan" parameterType="Caidan">
+        delete from caidan where juese=#{juese}
+    </delete>
+    <select id="searchCaidan" parameterType="userInfo" resultMap="resultCaidan">
+        select * from caidan where juese=#{type}
+    </select>
+	 <resultMap type="userInfo" id="resultUser">
+		<id property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="email" column="email" />
+		<result property="sex" column="sex" />
+		<result property="phone" column="phone" />
+		<result property="status" column="status" />
+		<result property="type" column="type" />
+	</resultMap>
+	<resultMap type="Juese" id="resultJuese">
+		<id property="id" column="id" />
+		<result property="juese" column="juese" />
+	</resultMap>
+	<resultMap type="Caidan" id="resultCaidan">
+		<id property="id" column="id" />
+		<result property="juese" column="juese" />
+		<result property="caidan" column="caidan" />
+	</resultMap>
+</mapper>

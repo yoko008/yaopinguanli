@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="yaopin" namespace="/yaopin" extends="ypgl">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<interceptors>
+			<interceptor name="json"
+				class="org.apache.struts2.json.JSONInterceptor" />
+		</interceptors>
+		<action name="yaopinAction" class="yaopinAction">
+		<result name="jinhuo">
+				/jinhuo.jsp
+		</result>
+		<result name="jinhuoxinxi" type="json">
+				<param name="root">state</param>
+		</result>
+		<result name="jinhuodan">
+				/jinhuodan.jsp
+		</result>	
+		<result name="yaopininfo">
+				/yaopininfo.jsp
+		</result>
+		<result name="updateInfo" type="json">
+				<param name="root">state</param>
+		</result>
+		<result name="xiaoshou">
+				/xiaoshou.jsp
+		</result>
+		<result name="xiugaijiamu">
+				/xiugaijiamu.jsp
+		</result>
+		<result name="xiaoshoudan">
+				/xiaoshoudan.jsp
+		</result>
+		<result name="guoqichuli">
+				/guoqichuli.jsp
+		</result>
+		</action>
+	</package>
+</struts>

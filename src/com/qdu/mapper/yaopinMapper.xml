@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qdu.dao.yaopinDao">
+<select id="searchYaopinInfo" parameterType="Page" resultMap="resultYaopinInfo">
+    select * from yaopininfo where 1=1
+	    <if test="keyword != null and keyword != ''">
+	        and name like CONCAT('%',#{keyword},'%') 
+	    </if>
+	    and status=0 order by id desc 
+	    <if test="startnum != null and startnum != ''">
+	        limit #{startnum},#{pagelistnum}
+	    </if>
+</select>
+<select id="searchGongyingshang" resultMap="resultGYS">
+    select * from gongyingshang where status=0  order by id desc 
+</select>
+<insert id="addJinhuo" parameterType="Jinhuo">
+    insert into jinhuo values(default,#{yaopinid},#{yaopinname},#{jinhuodate},#{gongyingshang},#{pici},#{shengchandate},#{guoqidate},#{shuliang},#{danwei},#{danjia},#{zongjia},0)
+</insert>
+<select id="searchKucun" parameterType="Jinhuo" resultType="Yaopinkucun">
+    select * from yaopinkucun where yaopinname=#{yaopinname}
+</select>
+<insert id="addYaopinKucun" parameterType="Jinhuo">
+    insert into yaopinkucun values(default,null,#{yaopinname},#{shuliang},null,null,0)
+</insert>
+<update id="updateYaopinKucun"  parameterType="Jinhuo">
+    update yaopinkucun set shuliang=shuliang+#{shuliang} where yaopinname=#{yaopinname}
+</update>
+<select id="jinhuoxinxi" parameterType="Yaopininfo" resultType="Yaopininfo">
+    select * from yaopininfo where name=#{name}
+</select>
+<select id="jinhuodanListnum" parameterType="Page" resultType="int">
+     select count(id) from jinhuo where 1=1
+	    <if test="keyword != null and keyword != ''">
+	         and yaopinname like CONCAT('%',#{keyword},'%') 
+	    </if>
+	     and status=0
+</select>
+<select id="yaopininfoListnum" parameterType="Page" resultType="int">
+     select count(id) from yaopininfo where 1=1
+	    <if test="keyword != null and keyword != ''">
+	         and name like CONCAT('%',#{keyword},'%') 
+	    </if>
+	     and status=0
+</select>
+<select id="jinhuodan"  parameterType="Page" resultMap="resultJinhuo">
+	    select * from jinhuo where 1=1
+	    <if test="keyword != null and keyword != ''">
+	        and yaopinname like CONCAT('%',#{keyword},'%') 
+	    </if>
+	    and status=0 order by id desc limit #{startnum},#{pagelistnum}
+</select>
+<insert id="addyaopininfo" parameterType="Yaopininfo">
+	    insert into yaopininfo values(default,#{name},#{changjia},#{leibie},#{danwei},null,null,0)
+</insert>
+<update id="delinfo" parameterType="Yaopininfo">
+     update yaopininfo set status=1 where id=#{id}
+</update>
+<update id="updateInfo" parameterType="Yaopininfo">
+	    update yaopininfo set 
+	    <if test="name!=null">
+	       name=#{name} 
+	    </if>
+	    <if test="changjia!=null">
+	       changjia=#{changjia} 
+	    </if>
+	    <if test="leibie!=null">
+	       leibie=#{leibie} 
+	    </if>
+	    <if test="danwei!=null">
+	       danwei=#{danwei} 
+	    </if>
+	    <if test="jhdanjia!=null">
+	       jhdanjia=#{jhdanjia} 
+	    </if>
+	    <if test="lsdanjia!=null">
+	       lsdanjia=#{lsdanjia} 
+	    </if>
+	     where id=#{id}
+</update>
+<insert id="addXiaoshou" parameterType="Xiaoshou">
+    insert into xiaoshou values(default,#{yaopinid},#{yaopinname},#{shuliang},#{danjia},#{zongjia},#{date},0)
+</insert>
+<update id="jianYaopinKucun"  parameterType="Xiaoshou">
+    update yaopinkucun set shuliang=shuliang-#{shuliang} where yaopinname=#{yaopinname}
+</update>
+<select id="xiaoshouListnum" parameterType="Page" resultType="int">
+     select count(id) from xiaoshou where 1=1
+	    <if test="keyword != null and keyword != ''">
+	         and yaopinname like CONCAT('%',#{keyword},'%') 
+	    </if>
+	     and status=0
+</select>
+<select id="xiaoshoudan"  parameterType="Page" resultMap="resultXiaoshou">
+	    select * from xiaoshou where 1=1
+	    <if test="keyword != null and keyword != ''">
+	        and yaopinname like CONCAT('%',#{keyword},'%') 
+	    </if>
+	    and status=0 order by id desc limit #{startnum},#{pagelistnum}
+</select>
+<select id="searchYaopinKucun" resultMap="resultKucun">
+    select * from yaopinkucun where status=0
+</select>
+<insert id="chuli" parameterType="Yaopinchuli">
+    insert into yaopinchuli values(default,#{shuliang},#{yaopinname},#{pici},#{date},#{yuanyin},0)
+</insert>
+<update id="jian"  parameterType="Yaopinchuli">
+    update yaopinkucun set shuliang=shuliang-#{shuliang} where yaopinname=#{yaopinname}
+</update>
+<resultMap type="Xiaoshou" id="resultXiaoshou">
+		<id property="id" column="id" />
+		<result property="yaopinid" column="yaopinid" />
+		<result property="yaopinname" column="yaopinname" />
+		<result property="shuliang" column="shuliang" />
+		<result property="danjia" column="danjia" />
+		<result property="zongjia" column="zongjia" />
+		<result property="date" column="date" />
+		<result property="status" column="status" />
+</resultMap>
+<resultMap type="Yaopininfo" id="resultYaopinInfo">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="changjia" column="changjia" />
+		<result property="leibie" column="leibie" />
+		<result property="danwei" column="danwei" />
+		<result property="jhdanjia" column="jhdanjia" />
+		<result property="lsdanjia" column="lsdanjia" />
+		<result property="status" column="status" />
+</resultMap>
+<resultMap type="Jinhuo" id="resultJinhuo">
+		<id property="id" column="id" />
+		<result property="yaopinid" column="yaopinid" />
+		<result property="yaopinname" column="yaopinname" />
+		<result property="jinhuodate" column="jinhuodate" />
+		<result property="gongyingshang" column="gongyingshang" />
+		<result property="pici" column="pici" />
+		<result property="shengchandate" column="shengchandate" />
+		<result property="shuliang" column="shuliang" />
+		<result property="danwei" column="danwei" />
+		<result property="danjia" column="danjia" />
+		<result property="zongjia" column="zongjia" />
+		<result property="status" column="status" />
+		<result property="guoqidate" column="guoqidate" />
+</resultMap>
+<resultMap type="Yaopinkucun" id="resultKucun">
+		<id property="id" column="id" />
+		<result property="yaopinid" column="yaopinid" />
+		<result property="yaopinname" column="yaopinname" />
+		<result property="shuliang" column="shuliang" />
+		<result property="jhzongjia" column="jhzongjia" />
+		<result property="lszongjia" column="lszongjia" />
+		<result property="status" column="status" />
+</resultMap>
+<resultMap type="Gongyingshang" id="resultGYS">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="fuzeren" column="fuzeren" />
+		<result property="phone" column="phone" />
+		<result property="dizhi" column="dizhi" />
+		<result property="status" column="status" />
+</resultMap>
+</mapper>
