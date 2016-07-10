@@ -24,7 +24,7 @@
     <script type="text/javascript" src="js/toastr.js"></script>
     <script type="text/javascript" src="js/jquery.darktooltip.js"></script>
     <script language="JavaScript">
-    $(document).ready(function(){
+    $(document).ready(function(){ 
     	//显示添加，删除信息
     	var state = $("#state").val();
     	if(state!=null&&state!=""){

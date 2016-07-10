@@ -14,16 +14,8 @@
 <title>登录页面</title>
 </head>
 <body>
-111
-<<<<<<< HEAD
+
 这是个登录页面。
-222
-333
-222123
-=======
-这是个登录页面。
-222123
-xiaoxin
->>>>>>> refs/heads/dev
+
 </body>
 </html>
